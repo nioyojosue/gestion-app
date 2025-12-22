@@ -17,3 +17,7 @@
 - [] Faire une difference entre id et id au niveau de la facture id(Quand la facture a un element) et vice-versa
 
 - [] Affichier le recu de la vente lorsqu'on clique sur le boutton valider pour un article
+
+- [] Affichier un message d'erreure quand ont essaye de mettre les article disponible a negative
+
+- [] 

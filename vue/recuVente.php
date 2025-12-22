@@ -65,7 +65,7 @@ if (!empty($_GET['id_facture'])) {
                         <td><?= $a['quantite'] ?></td>
                         <td><?= $a['prix_unitaire'] ?></td>
                         <td><?= $a['prix'] ?></td>
-                    </tr>
+                    </tr> 
                 <?php endforeach; ?>
                 <tr>
                     <td colspan="3"><strong>Total FCFA</strong></td>
