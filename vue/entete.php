@@ -1,6 +1,43 @@
 <?php
 
 include_once '../model/function.php';
+
+// Démarrer la session si nécessaire
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Vérifier que l'utilisateur est connecté
+if (empty($_SESSION['user']) || empty($_SESSION['role'])) {
+    header('Location: ../index.php');
+    exit;
+}
+
+$userRole = $_SESSION['role']; // 'directeur' ou 'employer'
+
+// Fonction pour vérifier si l'utilisateur a accès à une page
+function canAccess($page, $role) {
+    // Pages autorisées pour chaque rôle
+    $permissions = array(
+        'directeur' => array('dashboard', 'vente', 'client', 'article', 'fournisseur', 'commande', 'categorie', 'analyse', 'recherche', 'recuVente', 'employer'),
+        'employer' => array('dashboard', 'vente', 'client', 'recherche', 'recuVente')
+    );
+    
+    $page = str_replace('.php', '', $page);
+    
+    if (!isset($permissions[$role])) {
+        return false;
+    }
+    
+    return in_array($page, $permissions[$role]);
+}
+
+// Vérifier l'accès à la page actuelle
+$currentPage = basename($_SERVER['PHP_SELF']);
+if (!canAccess($currentPage, $userRole)) {
+    echo "<div style='text-align: center; padding: 50px;'><h2>Accès refusé</h2><p>Vous n'avez pas les permissions pour accéder à cette page.</p><a href='dashboard.php'>Retour au dashboard</a></div>";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
@@ -26,92 +63,91 @@ include_once '../model/function.php';
             <span class="logo_name">Ny_Design</span>
         </div>
         <ul class="nav-links">
+            <!-- Dashboard - Tous les rôles -->
             <li>
                 <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF'])=="dashboard.php" ? "active" : "" ?> ">
                     <i class="bx bx-grid-alt"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
             </li>
+            
+            <!-- Vente - Tous les rôles -->
             <li>
                 <a href="vente.php" class="<?php echo basename($_SERVER['PHP_SELF'])=="vente.php" ? "active" : "" ?> ">
                     <i class='bx bx-shopping-bag'></i>
                     <span class="links_name">Vente</span>
                 </a>
             </li>
+            
+            <!-- Client - Tous les rôles -->
             <li>
                 <a href="client.php" class="<?php echo basename($_SERVER['PHP_SELF'])=="client.php" ? "active" : "" ?> ">
                     <i class="bx bx-user"></i>
                     <span class="links_name">Client</span>
                 </a>
             </li>
+            
+            <!-- Article - Directeur uniquement -->
+            <?php if ($userRole === 'directeur'): ?>
             <li>
                 <a href="article.php"  class="<?php echo basename($_SERVER['PHP_SELF'])=="article.php" ? "active" : "" ?> ">
                     <i class="bx bx-box"></i>
                     <span class="links_name">Articles</span>
                 </a>
             </li>
+            
+            <!-- Fournisseur - Directeur uniquement -->
             <li>
                 <a href="fournisseur.php"  class="<?php echo basename($_SERVER['PHP_SELF'])=="fournisseur.php" ? "active" : "" ?> ">
                     <i class="bx bx-user"></i>
                     <span class="links_name">Fournisseur</span>
                 </a>
             </li>
+            
+            <!-- Commandes - Directeur uniquement -->
             <li>
                 <a href="commande.php"  class="<?php echo basename($_SERVER['PHP_SELF'])=="commande.php" ? "active" : "" ?> ">
                     <i class="bx bx-list-ul"></i>
                     <span class="links_name">Commandes</span>
                 </a>
             </li>
+            
+            <!-- Catégorie - Directeur uniquement -->
             <li>
                 <a href="categorie.php"  class="<?php echo basename($_SERVER['PHP_SELF'])=="categorie.php" ? "active" : "" ?> ">
                     <i class="bx bx-list-ul"></i>
                     <span class="links_name">Catégorie</span>
                 </a>
             </li>
+            
+            <!-- Analyses - Directeur uniquement -->
             <li>
                 <a href="analyse.php" class="<?php echo basename($_SERVER['PHP_SELF'])=="analyse.php" ? "active" : "" ?> ">
                     <i class="bx bx-pie-chart-alt-2"></i>
                     <span class="links_name">Analyses</span>
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-coin-stack"></i>
-                    <span class="links_name">Stock de josue</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-book-alt"></i>
-                    <span class="links_name">Toutes les commmandes</span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-user"></i>
-                    <span class="links_name">Utilisateur</span>
-                </a>
-            </li>
-            <!-- <li>
-          <a href="#">
-            <i class="bx bx-message" ></i>
-            <span class="links_name">Messages</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-heart" ></i>
-            <span class="links_name">Favrorites</span>
-          </a>
-        </li> -->
+            
+            <!-- Configuration - Directeur uniquement -->
             <li>
                 <a href="#">
                     <i class="bx bx-cog"></i>
                     <span class="links_name">Configuration</span>
                 </a>
             </li>
+            
+            <!-- Gestion des Employés - Directeur uniquement -->
+            <li>
+                <a href="employer.php" class="<?php echo basename($_SERVER['PHP_SELF'])=="employer.php" ? "active" : "" ?> ">
+                    <i class="bx bx-group"></i>
+                    <span class="links_name">Employés</span>
+                </a>
+            </li>
+            <?php endif; ?>
+            
+            <!-- Déconnexion - Tous les rôles -->
             <li class="log_out">
-                <a href="#">
+                <a href="../model/deconnexion.php">
                     <i class="bx bx-log-out"></i>
                     <span class="links_name">Déconnexion</span>
                 </a>
@@ -283,7 +319,7 @@ include_once '../model/function.php';
             </div>
             <div class="profile-details">
                 <!-- <img src="profile.jpg" alt=""> -->
-                <span class="admin_name">Josue</span>
+                <span class="admin_name"><?php echo htmlentities($_SESSION['user']); ?> (<?php echo ucfirst($userRole); ?>)</span>
                 <i class="bx bx-chevron-down"></i>
             </div>
     

@@ -1,0 +1,74 @@
+# Fichiers de configuration sensibles
+connexion/db.php
+.env
+.env.local
+.env.*.php
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# IDE et éditeurs
+.vscode/
+.idea/
+.sublime-project
+.sublime-workspace
+*.code-workspace
+*.swp
+*.swo
+
+# Système d'exploitation
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Fichiers PHP temporaires
+*.php.bak
+*.php~
+
+# Dossiers de cache
+.cache/
+tmp/
+cache/
+
+# Node modules (si utilisé)
+node_modules/
+package-lock.json
+
+# Composer
+vendor/
+composer.lock
+
+# Fichiers personnels de développement
+local/
+private/
+dev/
+
+# Archives
+*.zip
+*.rar
+*.tar.gz
+*.7z
+
+# Fichiers de base de données locaux
+*.db
+*.sqlite
+*.sqlite3
+
+# Fichiers de test
+test-results/
+coverage/
+
+# Factures générées (optionnel - à décommenter si vous voulez les ignorer)
+# factures/
+
+# Fichiers de session PHP
+.session

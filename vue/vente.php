@@ -54,7 +54,7 @@ if (!empty($_GET['id'])) {
                 </select>
 
                 <label for="quantite">Quantité</label>
-                <input onkeyup="setPrix()" value="<?= !empty($_GET['id']) ?  $article['quantite'] : "" ?>" type="number" name="quantite" id="quantite" placeholder="Veuillez saisir la quantité">
+                <input onkeyup="setPrix()" value="<?= !empty($_GET['id']) ?  $article['quantite'] : "" ?>" type="number" name="quantite" id="quantite" placeholder="Veuillez saisir la quantité" min="1" required>
 
                 <label for="prix">Prix</label>
                 <input value="<?= !empty($_GET['id']) ?  $article['prix'] : "" ?>" type="number" name="prix" id="prix" placeholder="Veuillez saisir le prix">
@@ -88,28 +88,28 @@ if (!empty($_GET['id'])) {
         <div class="box">
             <table class="mtable">
                 <tr>
-                    <th>Article</th>
+                    <th>N° Facture</th>
                     <th>Client</th>
-                    <th>Quantité</th>
-                    <th>Prix</th>
+                    <th>Nb Articles</th>
+                    <th>Montant Total</th>
                     <th>Date</th>
                     <th>Action</th>
                 </tr>
                 <?php
-                $vente = getVente();
+                $factures = getFactures();
 
-                if (!empty($vente) && is_array($vente)) {
-                    foreach ($vente as $key => $value) {
+                if (!empty($factures) && is_array($factures)) {
+                    foreach ($factures as $key => $facture) {
                 ?>
                         <tr>
-                            <td><?= $value['nom_article'] ?></td>
-                            <td><?= $value['nom'] . " " . $value['prenom'] ?></td>
-                            <td><?= $value['quantite'] ?></td>
-                            <td><?= $value['prix'] ?></td>
-                            <td><?= date('d/m/Y H:i:s', strtotime($value['date_vente'])) ?></td>
+                            <td><?= $facture['num_facture'] ?></td>
+                            <td><?= $facture['nom'] . " " . $facture['prenom'] ?></td>
+                            <td><?= $facture['nombre_articles'] ?></td>
+                            <td><?= $facture['montant_total'] ?></td>
+                            <td><?= date('d/m/Y H:i:s', strtotime($facture['date_facture'])) ?></td>
                             <td>
-                                <a href="recuVente.php?id=<?= $value['id'] ?>"><i class='bx bx-receipt'></i></a>
-                                <a onclick="annuleVente(<?= $value['id'] ?>, <?= $value['idArticle'] ?>, <?= $value['quantite'] ?>)" style="color: red;"><i class='bx bx-stop-circle'></i></a>
+                                <a href="recuVente.php?id_facture=<?= $facture['id'] ?>"><i class='bx bx-receipt'></i></a>
+                                <a onclick="annuleFacture(<?= $facture['id'] ?>)" style="color: red;"><i class='bx bx-stop-circle'></i></a>
                             </td>
                         </tr>
                 <?php
@@ -128,9 +128,9 @@ if (!empty($_GET['id'])) {
 include 'pied.php';
 ?>
 <script>
-    function annuleVente(idVente, idArticle, quantite) {
-        if (confirm("Voulez-vous vraiment annuler cette vente ?")) {
-            window.location.href = "../model/annuleVente.php?idVente=" + idVente + "&idArticle=" + idArticle + "&quantite=" + quantite
+    function annuleFacture(idFacture) {
+        if (confirm("Voulez-vous vraiment annuler cette facture ? Tous les articles seront retournés en stock.")) {
+            window.location.href = "../model/annuleFacture.php?idFacture=" + idFacture
         }
     }
 

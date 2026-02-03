@@ -18,6 +18,5 @@
 
 - [] Affichier le recu de la vente lorsqu'on clique sur le boutton valider pour un article
 
-- [] Affichier un message d'erreure quand ont essaye de mettre les article disponible a negative
-
-- [] 
+- [x] Affichier un message d'erreure quand ont essaye de mettre les article disponible a negative
+- [] Bloquer la possibilité d'enregistrer la facture avec plusieurs clients. Un seul client doit etre possilble. 

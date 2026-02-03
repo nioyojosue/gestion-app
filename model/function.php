@@ -425,7 +425,11 @@ function creerFactureFromPanier($id_client)
         // clear session panier
         unset($_SESSION['panier']);
 
-        return array('success' => true, 'id_facture' => $id_facture, 'montant_total' => $montant_total);
+        // Générer automatiquement le fichier facture
+        require_once __DIR__ . '/sauvegarder_facture_pdf.php';
+        $pdf_result = genererPDFFacture($id_facture);
+
+        return array('success' => true, 'id_facture' => $id_facture, 'montant_total' => $montant_total, 'pdf_saved' => $pdf_result['success']);
 
     } catch (Exception $e) {
         $conn->rollBack();
@@ -452,5 +456,19 @@ function getArticlesFacture($id_facture)
         WHERE v.id_facture = ?";
     $req = $GLOBALS['connexion']->prepare($sql);
     $req->execute(array($id_facture));
+    return $req->fetchAll();
+}
+
+function getFactures()
+{
+    $sql = "SELECT f.id, f.id_client, f.date_facture, f.montant_total, f.num_facture, c.nom, c.prenom,
+            COUNT(v.id) AS nombre_articles
+        FROM facture f
+        LEFT JOIN client c ON f.id_client = c.id
+        LEFT JOIN vente v ON f.id = v.id_facture
+        GROUP BY f.id
+        ORDER BY f.date_facture DESC";
+    $req = $GLOBALS['connexion']->prepare($sql);
+    $req->execute();
     return $req->fetchAll();
 }

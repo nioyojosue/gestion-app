@@ -19,7 +19,8 @@ if (!empty($_GET['id_facture'])) {
 <div class="home-content">
 
 
-    <button class="hidden-print" id="btnPrint" style="position: relative; left: 45%;"> <i class='bx bx-printer'></i> Imprimer</button>
+    <button class="hidden-print" id="btnPrint" style="position: relative; left: 35%;"> <i class='bx bx-printer'></i> Imprimer</button>
+    <button class="hidden-print" id="btnSavePDF" style="position: relative; left: 35%; background-color: green;"> <i class='bx bx-download'></i> Sauvegarder</button>
     <div class="page">
         <div class="cote-a-cote">
             <h2>N-design Stock</h2>
@@ -95,6 +96,31 @@ include 'pied.php';
     var btnPrint = document.querySelector('#btnPrint');
     btnPrint.addEventListener("click", () => {
         window.print();
+    });
+
+    var btnSavePDF = document.querySelector('#btnSavePDF');
+    btnSavePDF.addEventListener("click", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idFacture = urlParams.get('id_facture');
+        
+        if (!idFacture) {
+            alert('Pas de facture à sauvegarder');
+            return;
+        }
+
+        fetch('../model/sauvegarder_facture_pdf.php?id_facture=' + idFacture)
+            .then(r => r.json())
+            .then(j => {
+                if (j.success) {
+                    alert('Facture sauvegardée avec succès dans le dossier factures/');
+                } else {
+                    alert('Erreur: ' + (j.message || 'Erreur inconnue'));
+                }
+            })
+            .catch(e => {
+                console.error(e);
+                alert('Erreur: ' + e.message);
+            });
     });
 
     function setPrix() {

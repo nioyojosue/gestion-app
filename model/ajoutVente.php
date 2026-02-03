@@ -12,7 +12,11 @@ if (
 $article = getArticle($_POST['id_article']);
 
 if (!empty($article) && is_array($article)) {
-    if ($_POST['quantite']>$article['quantite']) {
+    // Vérifier que la quantité est positive
+    if ($_POST['quantite'] <= 0) {
+        $_SESSION['message']['text'] = "La quantité doit être un nombre positif";
+        $_SESSION['message']['type'] = "danger";
+    } else if ($_POST['quantite']>$article['quantite']) {
         $_SESSION['message']['text'] = "La quantité à vendre n'est pas disponible";
         $_SESSION['message']['type'] = "danger";
     }else {
