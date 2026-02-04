@@ -1,7 +1,7 @@
 <?php include("db.php");
 
 class data extends db {
-
+  // admin -------------------------------------------------------------------------------------------
     function adminLogin($email, $password) {
         $q = "SELECT * FROM admin WHERE email = :email AND password = :password";
         $stmt = $this->connection->prepare($q);
@@ -22,9 +22,9 @@ class data extends db {
         }
     }
     
-    // user -------------------------------------------------------------------------------------------
+    // employer -------------------------------------------------------------------------------------------
    
-    function userLogin($email, $password) {
+    function employerLogin($email, $password) {
         $q = "SELECT * FROM employer WHERE email = :email AND password = :password";
         $stmt = $this->connection->prepare($q);
         $stmt->bindParam(':email', $email);
@@ -37,7 +37,7 @@ class data extends db {
             $_SESSION['user'] = $email;
             $_SESSION['role'] = 'employer';
             session_write_close();
-            header("location: ../vue/vente.php");
+            header("location: ../vue/dashboard.php");
             exit;
         } else {
             header("location:../authentification/authentificationEtudiant.php?msg=Email ou mot de passe incorrect !");

@@ -17,6 +17,7 @@
         <input type='password' name='password' placeholder="votre mot de passe *" required>
         <br>
         <input type='submit' value='Se Connecter'><br>
+        <a href="../index.php" class="link-connect">Changer le mode de connexion</a>
     </form><?php $msg=$_GET['msg'];
 
     if($msg !=null) {

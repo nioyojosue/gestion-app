@@ -20,6 +20,6 @@ if($email==null||$password==null){
 elseif($email!=null&&$password!=null){
     $obj=new data();
     $obj->setconnection();
-    $obj->userLogin($email,$password);
+    $obj->employerLogin($email,$password);
 
 }

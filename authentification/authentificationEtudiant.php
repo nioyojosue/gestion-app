@@ -18,6 +18,7 @@
         <label>Mot de passe:</label><br>
         <input type='password' name='password' placeholder="Votre mot de passe *" required><br>
         <input type='submit' value='Se Connecter'><br>
+        <a href="../index.php" class="link-connect">Changer le mode de connexion</a>
     </form>
 
     <?php
