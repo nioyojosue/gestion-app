@@ -1,6 +1,22 @@
 <?php
 include 'entete.php';
 ?>
+<style>
+    /* .box form button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+    } */
+
+    .box form button:hover {
+        opacity: 0.9;
+    }
+    .box form button[reset]:hover {
+        opacity: 0.9;
+    }
+</style>
 <div class="home-content">
     <div class="overview-boxes">
         <div class="box">
@@ -24,7 +40,8 @@ include 'entete.php';
                 <label for="adresse">Adresse</label>
                 <input type="text" name="adresse" id="adresse" placeholder="Adresse">
 
-                <button type="submit" style="background-color: green;">Ajouter l'employé</button>
+                <button type="submit" style="background-color: green; :hover background-color: red">Ajouter l'employé</button>
+                <button type="reset" style="background-color: red;">Annuler</button>
 
                 <?php
                 if (!empty($_SESSION['message']['text'])) {

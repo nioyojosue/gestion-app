@@ -22,15 +22,15 @@
     </form>
 
     <?php
-                $msg=$_GET['msg'];
-                if($msg!= null){
-                echo "<div id='msg' >";
-                echo '<label id="monLabel">';
-                echo "$msg";
-                echo "</label>";
-                echo "</div>";
-                }
-                ?>
+        $msg=$_GET['msg'];
+        if($msg!= null){
+        echo "<div id='msg' >";
+        echo '<label id="monLabel">';
+        echo "$msg";
+        echo "</label>";
+        echo "</div>";
+        }
+    ?>
 </body>
 
 </html>
