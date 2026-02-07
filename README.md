@@ -59,7 +59,7 @@ Application web de gestion de stock et de ventes pour l'entreprise DCLIC.
 1. **Cloner/télécharger le projet**
    ```bash
    cd /chemin/vers/htdocs
-   git clone <repository-url> GestonStock
+   git clone https://github.com/nioyojosue/gestion-app.git GestonStock
    cd GestonStock
    ```
 
@@ -230,5 +230,5 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 ---
 
-**Dernière mise à jour** : 3 février 2026
+**Dernière mise à jour** : 7 février 2026
 # gestion-app
