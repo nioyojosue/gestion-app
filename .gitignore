@@ -68,7 +68,7 @@ test-results/
 coverage/
 
 # Factures générées (optionnel - à décommenter si vous voulez les ignorer)
-# factures/
+factures/
 
 # Fichiers de session PHP
 .session

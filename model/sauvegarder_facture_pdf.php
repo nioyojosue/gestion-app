@@ -50,13 +50,24 @@ function genererContenuFacture($facture, $articles)
     $tel_client = $facture['telephone'];
     $adresse_client = $facture['adresse'];
     $montant_total = $facture['montant_total'];
+    
+    // Récupérer le nom de l'employé/admin
+    $nom_employe = 'N/A';
+    if (!empty($facture['employer_nom']) && !empty($facture['employer_prenom'])) {
+        $nom_employe = $facture['employer_nom'] . " " . $facture['employer_prenom'];
+    } elseif (!empty($facture['email_user'])) {
+        $nom_employe = $facture['email_user'];
+    }
+    
+    $role_user = !empty($facture['role_user']) ? ucfirst($facture['role_user']) : 'Employé';
 
     $contenu = "========================================\n";
     $contenu .= $titre . "\n";
     $contenu .= "========================================\n\n";
 
     $contenu .= "Facture N°: " . $num_facture . "\n";
-    $contenu .= "Date: " . $date . "\n\n";
+    $contenu .= "Date: " . $date . "\n";
+    $contenu .= $role_user . ": " . $nom_employe . "\n\n";
 
     $contenu .= "CLIENT:\n";
     $contenu .= "Nom: " . $nom_client . "\n";

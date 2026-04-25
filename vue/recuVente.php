@@ -47,6 +47,20 @@ if (!empty($_GET['id_facture'])) {
                 <p>Adresse :</p>
                 <p><?= $facture ? $facture['adresse'] : $vente['adresse'] ?></p>
             </div>
+            <?php if ($facture && !empty($facture['email_user'])) : ?>
+                <div class="cote-a-cote" style="width: 50%;">
+                    <p><?= !empty($facture['role_user']) && $facture['role_user'] == 'directeur' ? 'Admin' : 'Employé' ?> :</p>
+                    <p>
+                        <?php 
+                            if (!empty($facture['employer_nom']) && !empty($facture['employer_prenom'])) {
+                                echo $facture['employer_nom'] . " " . $facture['employer_prenom'];
+                            } else {
+                                echo $facture['email_user'];
+                            }
+                        ?>
+                    </p>
+                </div>
+            <?php endif; ?>
         </div>
         
         <br>

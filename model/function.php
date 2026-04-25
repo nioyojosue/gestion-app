@@ -384,9 +384,26 @@ function creerFactureFromPanier($id_client)
     // create facture (générer un numéro de facture pour éviter les colonnes NOT NULL)
     // Insérer aussi un montant_total initial (0) pour éviter les erreurs si la colonne est NOT NULL
     $num_facture = 'FAC-'.date('YmdHis').'-'.mt_rand(100,999);
-    $sql = "INSERT INTO facture (id_client, date_facture, num_facture, montant_total) VALUES (?, NOW(), ?, ?)";
+    
+    // Récupérer les informations de l'utilisateur connecté
+    $email_user = isset($_SESSION['user']) ? $_SESSION['user'] : 'Inconnu';
+    $role_user = isset($_SESSION['role']) ? $_SESSION['role'] : 'employer';
+    $id_employer = null;
+    
+    // Si c'est un employé, récupérer son ID
+    if ($role_user == 'employer' && !empty($email_user)) {
+        $sql_emp = "SELECT id FROM employer WHERE email = ?";
+        $stmt_emp = $conn->prepare($sql_emp);
+        $stmt_emp->execute(array($email_user));
+        $emp = $stmt_emp->fetch(PDO::FETCH_ASSOC);
+        if ($emp) {
+            $id_employer = $emp['id'];
+        }
+    }
+    
+    $sql = "INSERT INTO facture (id_client, date_facture, num_facture, montant_total, id_employer, email_user, role_user) VALUES (?, NOW(), ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->execute(array($id_client, $num_facture, 0));
+    $stmt->execute(array($id_client, $num_facture, 0, $id_employer, $email_user, $role_user));
         $id_facture = $conn->lastInsertId();
 
         $montant_total = 0;
@@ -439,9 +456,12 @@ function creerFactureFromPanier($id_client)
 
 function getFacture($id_facture)
 {
-    $sql = "SELECT f.id, f.id_client, f.date_facture, f.montant_total, c.nom, c.prenom, c.telephone, c.adresse
+    $sql = "SELECT f.id, f.id_client, f.date_facture, f.montant_total, f.num_facture, f.id_employer, f.email_user, f.role_user,
+            c.nom, c.prenom, c.telephone, c.adresse,
+            e.nom as employer_nom, e.prenom as employer_prenom
         FROM facture f
         LEFT JOIN client c ON f.id_client = c.id
+        LEFT JOIN employer e ON f.id_employer = e.id
         WHERE f.id = ?";
     $req = $GLOBALS['connexion']->prepare($sql);
     $req->execute(array($id_facture));
