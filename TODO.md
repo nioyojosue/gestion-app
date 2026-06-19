@@ -2,11 +2,11 @@
 
 -  [ ] Rendre le menu de connection plus efficace, verifier les accès retour et faille de sécurité
 
--  [ ]La facture avec plusieurs article ne se met pas a jour dans les onglet ventes elle apparait avec chaque article qui etaient sur la facture separement
+-  [x]La facture avec plusieurs article ne se met pas a jour dans les onglet ventes elle apparait avec chaque article qui etaient sur la facture separement
 
 -  [x] le button imprimer dans le onglet récu de ventes ne semble plus fontionner
 
--  [ ] Trouver une méthode comment enregistrer le pdf sans demander le nom du fichier et penser a enregistrer les facture dans un format plus leger de preference Webp(image) et au pire pdf(document)
+-  [x] Trouver une méthode comment enregistrer le pdf sans demander le nom du fichier et penser a enregistrer les facture dans un format plus leger de preference Webp(image) et au pire pdf(document)
 
 - [ ] Ajouter les terms et le numero de contribuable sur la facture dans l'onglet recu vente
 
